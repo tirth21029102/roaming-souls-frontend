@@ -1,0 +1,94 @@
+emitIceCandidate(to, candidate)
+Sends network path information for WebRTC
+Critical for establishing peer-to-peer connection
+
+
+- Stores their WebRTC offer
+- The person you called accepted
+- Provides their WebRTC answer
+- Moves you to `IN_CALL` status
+
+
+
+Video Stream Binding
+javascriptuseEffect(() => {
+  if (localVideoRef.current) {
+    localVideoRef.current.srcObject = localStream || null;
+  }
+}, [localStream]);
+What's happening:
+useWebRTC() provides localStream (MediaStream object)
+When it changes, this effect runs
+srcObject is set on the <video> element
+Browser automatically renders the camera feed
+
+
+websocket make connection to server frist
+but that's not case in webrtc
+
+
+for webrtc
+at creating offer time
+
+1. I create new peer connection (new RTCPeerConnection(google stun server)) 
+2. I make an offer ,
+3. that offer I store in my localDescription
+4. ice candidate are flowing continuously 
+5. stun servers are for extracting public ip address of particular devices
+
+
+4. How Everything Flows Together
+Scenario A: You Call Someone
+
+User clicks "Call" button somewhere in your app
+Your app dispatches startOutgoingCall(userId)
+Redux state: status = 'OUTGOING'
+useWebRTC hook detects this and:
+
+Gets your camera/mic (getUserMedia)
+Creates WebRTC offer
+Calls emitCallOffer(to, offer)
+
+
+Server forwards offer to recipient
+Recipient's listeners.js receives CALL_OFFER
+Dispatches incomingCall({ from, offer })
+Recipient sees incoming call UI
+If they click "Accept":
+
+Their useWebRTC creates WebRTC answer
+Calls emitCallAnswer(to, answer)
+
+
+Your listeners.js receives CALL_ANSWER
+Dispatches callAnswered(answer)
+Both sides: status = 'IN_CALL'
+WebRTC peer connection established
+Video/audio streams flow directly peer-to-peer
+
+Scenario B: Someone Calls You
+
+Their server forwards CALL_OFFER to you
+Your listeners.js catches it
+Dispatches incomingCall({ from, offer })
+Your UI shows incoming call modal
+Your issue starts here → You want to see YOUR camera preview
+Currently, useWebRTC probably only requests camera AFTER you click "Accept"
+Click "Accept" → dispatches acceptCall()
+useWebRTC detects this, gets your camera, creates answer
+Rest of flow continues...
+
+https://claude.ai/chat/64360248-1eb1-460a-b65e-a9f1516d3658
+
+
+
+1. `useRef` is for mutable WebRTC objects that shouldn’t trigger re-renders (e.g., `RTCPeerConnection`).
+2. Refs persist across renders and avoid stale closures in async handlers.
+3. `pcRef` is a ref because it’s an imperative browser object, not UI state.
+4. `localStreamRef` is a ref to manage lifecycle and cleanup without re-rendering.
+5. `pendingIceRef` is a ref to queue ICE candidates without causing renders.
+6. `useState` is for data that affects what React renders.
+7. `localStream` state exists so the UI can attach it to a `<video>` element.
+8. `remoteStream` state exists so the UI updates when remote tracks arrive.
+9. Using both ref + state separates internal logic from UI concerns.
+10. Rule: refs for logic & lifecycle, state for rendering.

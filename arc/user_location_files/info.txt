@@ -1,0 +1,36 @@
+all code from Map.jsx
+
+  const [userCity, setUserCity] = useState(null);
+
+
+const handleUserLocationSelect = (city) => {
+    setLatitude(Number(city.lat));
+    setLongnitude(Number(city.lng));
+    setUserCity(city);
+  };
+
+   {userCity && loggedInUserInfo && (
+          <Marker
+            position={[Number(userCity.lat), Number(userCity.lng)]}
+            icon={createAvatarIcon(
+              `${import.meta.env.VITE_IMAGE_URL}/${loggedInUserInfo.imageName}`,
+            )}
+          >
+            <Popup>
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-2xl font-semibold">
+                  {loggedInUserInfo.user_name}
+                </span>
+                <span className="font-semibold">{loggedInUserInfo.email}</span>
+                <span className="text-sm text-gray-500">{userCity.name}</span>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+
+
+
+         <UserLocationController
+        userCity={userCity}
+        onLocationSelect={handleUserLocationSelect}
+      />

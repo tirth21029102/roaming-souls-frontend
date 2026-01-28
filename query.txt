@@ -1,0 +1,92 @@
+const something = useSelector((state) => state.cities.cities);
+
+The Roaming Souls , The Happy Campers , Wander Squad , Nomad Circle
+
+The Go-To Crew , The Usual Gang , Memory Makers , 
+
+
+
+ChatApp
+ ├── FriendsList
+ ├── ChatWindow
+ │    └── MessageList
+ │    └── MessageInput
+ └── PrivateChatRoom
+
+src/
+├── socket/
+│   ├── socket.js
+│   ├── events.js
+│   ├── listeners.js
+│   └── emitters.js
+├── store/
+│   ├── index.js
+│   └── slices/
+│       └── chat.slice.js
+├── components/
+│   └── chat/
+│       ├── ChatInput.jsx
+│       └── ChatMessages.jsx
+└── App.jsx
+
+Core principle:
+
+Socket lifecycle is app-level, not component-level
+
+
+| Concern          | Who Handles It   |
+| ---------------- | ---------------- |
+| Socket lifecycle | App.jsx          |
+| Incoming events  | socket/listeners |
+| State            | Redux            |
+| UI               | Components       |
+| Outgoing events  | socket/emitters  |
+
+
+React 18 Strict Mode (this is the big one)
+In development, React does this on purpose:
+mount → useEffect → cleanup → mount → useEffect
+
+| Action             | Where                |
+| ------------------ | -------------------- |
+| Connect socket     | authenticated layout |
+| Register listeners | once, idempotent     |
+| Disconnect socket  | **logout only**      |
+
+
+4️⃣ Correct architecture (important)
+Rule of thumb
+  REST API → load initial messages
+  WebSocket → only new messages
+  Redux → single source of truth
+  No dispatching inside API helpers
+
+  REST API ──► React Query ──► Redux (once)
+WebSocket ──► Redux (new messages only)
+Redux ──► UI
+
+Connect the socket immediately after authUser() succeeds, and only then.
+
+
+
+
+useQuery → fetch & read data
+useMutation → change/update data
+Updating a user’s location = mutation.
+
+
+
+.env file archieve
+VITE_AUTH_URL = 'http://localhost:9000/api/auth'
+VITE_USERS_URL = 'http://localhost:9000/api/users'
+VITE_CITIES_URL = 'http://localhost:9000/api/cities'
+VITE_CONVERSATIONS_URL = 'http://localhost:9000/api/conversations'
+VITE_LOCATIONS_URL = 'http://localhost:9000/api/locations'
+VITE_IMAGE_URL = 'http://localhost:9000'
+VITE_REVERSE_GEO_CODE_API_KEY = '81a103f38e0d49b5b17509aa65759617'
+
+
+
+
+
+https://github.com/tirth21029102/roaming-souls-frontend.git

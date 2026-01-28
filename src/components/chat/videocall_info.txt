@@ -1,0 +1,78 @@
+🧠 What this does
+getUserMedia → asks permission
+Returns a MediaStream
+srcObject → streams video into <video>
+
+5️⃣ Step 3: Understand WebRTC roles (very important)
+When two users call:
+| Role   | Meaning                |
+| ------ | ---------------------- |
+| Caller | User who clicks "Call" |
+| Callee | User who receives call |
+
+They exchange:
+-Offer
+-Answer
+-ICE candidates
+⚠️ They do NOT connect directly via socket
+Socket is only for signaling
+
+🧩 What WebRTC needs to connect two users
+Each side must exchange 3 things:
+Offer → “Here’s how I can talk”
+Answer → “Here’s how I respond”
+ICE candidates → “Here are my network paths”
+Sockets deliver these.
+
+
+When the other user sends media
+WebRTC fires ontrack
+We attach it to <video>
+
+peerRef.current = createPeerConnection();
+stream.getTracks().forEach((track) => {
+  peerRef.current.addTrack(track, stream);
+});
+track = audio or video
+This tells WebRTC: “Send this to the other user”
+
+🔑 Why here?
+WebRTC rules:
+Get media
+Create RTCPeerConnection
+Add tracks
+Create offer
+Set local description
+Send offer via signaling (socket)
+
+CALLER                          CALLEE
+------                          ------
+getUserMedia                    getUserMedia
+createPeerConnection            createPeerConnection
+addTrack                        addTrack
+createOffer   ───────────────▶  setRemoteDescription
+setLocalDesc                    createAnswer
+send offer                      setLocalDescription
+                                send answer
+setRemoteDesc ◀───────────────  (done)
+
+
+
+Why?
+peerRef is a React ref
+listeners.js is NOT a React component
+It has no access to that ref
+🧠 Rule
+WebRTC peer connection MUST live in the same place as the <video> elements.
+You cannot control video streams from Redux or socket listeners.
+
+
+Socket receives signal
+        ↓
+callSignal forwards
+        ↓
+VideoCall handles it
+        ↓
+RTCPeerConnection updates
+        ↓
+<video> updates

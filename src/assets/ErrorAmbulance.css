@@ -1,0 +1,148 @@
+/* .error-container {
+  height: 100vh;
+  background: #0f172a;
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+.ambulance-wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.ambulance {
+  width: 160px;
+  animation: runAmbulance 4s linear infinite;
+}
+
+@keyframes runAmbulance {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(110vw);
+  }
+}
+
+.error-container h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.error-container p {
+  font-size: 1.1rem;
+  opacity: 0.85;
+} */
+
+.error-container {
+  height: 100vh;
+  background: radial-gradient(circle, #020617, #000);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
+
+/* 🚨 Flashing lights */
+.lights {
+  position: absolute;
+  top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.light {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  animation: flash 1s infinite alternate;
+}
+
+.light.red {
+  background: red;
+}
+
+.light.blue {
+  background: dodgerblue;
+  animation-delay: 0.5s;
+}
+
+@keyframes flash {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 🚑 Ambulance animation */
+.ambulance-road {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.ambulance {
+  width: 160px;
+  animation: drive 5s linear infinite;
+}
+
+@keyframes drive {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(110vw);
+  }
+}
+
+/* text */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+/* buttons */
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.actions button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: #1e293b;
+  color: #f8fafc;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.actions button:hover {
+  background: #334155;
+  transform: translateY(-2px);
+}
+
+.redirect-text {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}

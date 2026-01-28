@@ -1,0 +1,160 @@
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useWebRTC } from '../src/socket/useWebRTC';
+
+export default function VideoCall() {
+  const { status, error } = useSelector((state) => state.call);
+  const { localStream, remoteStream, acceptIncomingCall, hangUp } = useWebRTC();
+
+  const localVideoRef = useRef(null);
+  const remoteVideoRef = useRef(null);
+
+  /* ================= STREAM BINDING ================= */
+
+  useEffect(() => {
+    if (localVideoRef.current && localStream) {
+      localVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
+
+  // useEffect(() => {
+  //   const video = remoteVideoRef.current;
+  //   if (!video || !remoteStream) return;
+  //   console.log(remoteStream);
+  //   console.log(remoteVideoRef);
+  //   video.srcObject = remoteStream;
+  //   video.play().catch(() => {});
+  // }, [remoteStream]);
+
+  // useEffect(() => {
+  //   const video = remoteVideoRef.current;
+  //   if (!video || !remoteStream) return;
+
+  //   console.log('Remote tracks:', remoteStream.getTracks());
+  //   console.log('Remote video tracks:', remoteStream.getVideoTracks());
+
+  //   video.srcObject = remoteStream;
+  //   video.play().catch(() => {});
+  // }, [remoteStream]);
+
+  // useEffect(() => {
+  //   console.log('remoteVideoRef.current:', remoteVideoRef.current);
+  //   console.log('remoteStream:', remoteStream);
+  //   if (remoteVideoRef.current && remoteStream) {
+  //     remoteVideoRef.current.srcObject = remoteStream;
+  //     // console.log(
+  //     //   'after setting remotevideo ref : ',
+  //     //   remoteVideoRef.current.srcObject,
+  //     // );
+  //   }
+  // }, [remoteStream]);
+
+  // useEffect(() => {
+  //   const video = remoteVideoRef.current;
+  //   if (!video || !remoteStream) return;
+
+  //   console.log('Binding remote stream:', remoteStream.getTracks());
+
+  //   video.srcObject = remoteStream;
+
+  //   video.onloadedmetadata = () => {
+  //     video.play().catch((err) => {
+  //       console.warn('Remote play() failed:', err);
+  //     });
+  //   };
+  // }, [remoteStream, remoteVideoRef]);
+
+  useEffect(() => {
+    const video = remoteVideoRef.current;
+    if (!video || !remoteStream) return;
+
+    // console.log('Binding remote stream:', remoteStream.getTracks());
+
+    video.srcObject = remoteStream;
+    video.play().catch((err) => {
+      console.warn('Remote play() failed:', err);
+    });
+  }, [remoteStream]);
+
+  /* ================= RENDER GUARDS ================= */
+
+  if (status === 'IDLE') return null;
+
+  return (
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/70 backdrop-blur-lg">
+      <div className="relative flex h-[92vh] w-[92vw] max-w-7xl flex-col overflow-hidden rounded-3xl bg-neutral-900 shadow-2xl">
+        {/* HEADER */}
+        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+          <span className="text-sm text-white/80">
+            {status === 'INCOMING' && 'Incoming call'}
+            {status === 'OUTGOING' && 'Calling…'}
+            {status === 'IN_CALL' && 'In call'}
+          </span>
+
+          <button
+            onClick={hangUp}
+            className="rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+          >
+            End Call
+          </button>
+        </div>
+
+        {/* BODY */}
+        <div className="relative flex flex-1 items-center justify-center gap-8 p-6">
+          {/* LOCAL VIDEO (LEFT - CALLER) */}
+          {/* {localStream && ( */}
+          <div className="h-96 w-96 overflow-hidden rounded-3xl bg-black">
+            {console.log('hi this is localvideo ref', localVideoRef)}
+            <video
+              ref={localVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className="h-full w-full object-cover"
+            />
+          </div>
+          {/* )} */}
+
+          {/* REMOTE VIDEO (RIGHT - CALLEE) */}
+          {/* {remoteStream && ( */}
+          <div className="h-96 w-96 overflow-hidden rounded-3xl bg-black">
+            {console.log('hi this is remotevideo ref', remoteVideoRef)}
+            <video
+              ref={remoteVideoRef}
+              autoPlay
+              playsInline
+              className="h-full w-full object-cover"
+            />
+          </div>
+          {/* )} */}
+
+          {/* INCOMING CONTROLS */}
+          {status === 'INCOMING' && (
+            <div className="absolute bottom-10 flex gap-4">
+              <button
+                onClick={acceptIncomingCall}
+                className="rounded-xl bg-green-600 px-6 py-3 font-semibold text-white hover:bg-green-700"
+              >
+                Accept
+              </button>
+
+              <button
+                onClick={hangUp}
+                className="rounded-xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700"
+              >
+                Reject
+              </button>
+            </div>
+          )}
+
+          {/* ERROR */}
+          {error && (
+            <div className="absolute top-4 rounded-lg bg-red-500/90 px-4 py-2 text-sm text-white">
+              {error}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

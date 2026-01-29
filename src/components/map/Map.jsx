@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useSelector } from 'react-redux';
+import L from 'leaflet';
 
 import ProfileCard from '../profileCard/ProfileCard';
 import ChatApp from '../chat/ChatApp';
@@ -12,6 +13,14 @@ import UserLocationController from './UserLocationController';
 import ProfileBadgeManager from '../ProfileBadgeManager';
 import MapIntroTour from './MapIntroTour';
 import CallConnectionLine from '../callLineMap/CallConnectionLine';
+
+import markerPng from '../../assets/marker.png';
+import cyclePng from '../../assets/cycleMarker.png';
+
+const customIcon = L.icon({
+  iconUrl: markerPng,
+  iconSize: [64, 64],
+});
 
 export default function Map() {
   const [latitude, setLatitude] = useState(23.216003721928487);
@@ -34,7 +43,11 @@ export default function Map() {
         />
 
         {cities?.map((city) => (
-          <Marker key={city.id} position={[city.lat, city.lng]}>
+          <Marker
+            key={city.id}
+            position={[city.lat, city.lng]}
+            icon={customIcon}
+          >
             <Popup>
               <span className="text-3xl">{city.cityName}</span>
               <span className="text-2xl font-extrabold">{city.emoji}</span>

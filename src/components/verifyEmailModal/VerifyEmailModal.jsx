@@ -32,11 +32,11 @@ export default function VerifyEmailModal({ email, onClose, onVerified }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
-        <h2 className="mb-2 text-2xl font-semibold text-green-800">
+      <div className="w-full max-w-md rounded-3xl bg-white p-5 text-center shadow-xl md:p-8">
+        <h2 className="mb-2 text-xl font-semibold text-green-800 md:text-2xl">
           Verify your Email
         </h2>
-        <p className="mb-6 text-gray-600">
+        <p className="mb-5 text-sm text-gray-600 md:mb-6 md:text-base">
           We’ve sent a verification code to <br />
           <span className="font-medium text-red-400">{email}</span>
         </p>
@@ -46,10 +46,10 @@ export default function VerifyEmailModal({ email, onClose, onVerified }) {
           placeholder="Enter 6-digit OTP"
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
-          className="mb-4 w-full rounded-2xl bg-green-100 px-6 py-3 text-center text-lg tracking-widest text-green-800"
+          className="mb-4 w-full rounded-2xl bg-green-100 px-4 py-3 text-center text-base tracking-widest text-green-800 md:px-6 md:text-lg"
         />
 
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-3 md:flex-row md:gap-4">
           <button
             onClick={onClose}
             className="w-full rounded-2xl border px-4 py-2 text-green-400 hover:bg-gray-100"

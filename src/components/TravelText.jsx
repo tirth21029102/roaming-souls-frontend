@@ -47,7 +47,7 @@ const letters = [
 
 export default function TravelText({ type = 'default' }) {
   return (
-    <h1 className="flex items-center justify-center text-5xl font-bold">
+    <h1 className="flex items-center justify-center text-2xl font-bold md:text-5xl">
       <div className="rounded-2xl bg-gray-50 p-4">
         <Link
           to={type === 'default' ? '/app' : '/'}

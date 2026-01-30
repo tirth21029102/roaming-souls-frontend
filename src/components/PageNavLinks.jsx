@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function PageNavLinks() {
   return (
-    <div className="flex items-center justify-between gap-8">
+    <div className="flex flex-wrap items-center justify-center gap-4 md:justify-between md:gap-8">
       <NavLink
         className="text-green-100 uppercase duration-150 hover:text-yellow-300"
         to="/pricing"

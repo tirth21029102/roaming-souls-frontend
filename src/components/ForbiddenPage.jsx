@@ -29,7 +29,7 @@ export default function ForbiddenPage() {
   }, [navigate]); // ✅ dependency array
 
   return (
-    <div className="flex h-full items-center justify-center gap-12 bg-green-500">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-green-500 px-4 py-10 md:flex-row md:gap-12 md:px-0 md:py-0">
       <img src={forImg} className="animate-float h-full" />
       <div className="flex flex-col gap-12">
         <Link

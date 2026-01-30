@@ -4,9 +4,11 @@ import TravelText from './TravelText';
 
 export default function PageNav() {
   return (
-    <div className="flex h-1/4 justify-between p-8">
+    <div className="flex h-auto flex-col items-center gap-6 p-4 md:h-1/4 md:flex-row md:justify-between md:p-8">
       <Logo />
-      <TravelText />
+      <div className="hidden md:block">
+        <TravelText />
+      </div>
       <PageNavLinks />
     </div>
   );

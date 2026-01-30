@@ -96,8 +96,8 @@ export default function SignupForm() {
   };
 
   return (
-    <div className="flex h-3/4 justify-center gap-48">
-      <div className="flex h-full items-center justify-center">
+    <div className="flex h-full flex-col items-center justify-center gap-10 px-4 py-10 md:h-3/4 md:flex-row md:gap-48 md:px-0 md:py-0">
+      <div className="hidden h-full items-center justify-center md:flex">
         <svg
           className="animate-float h-5/6"
           aria-hidden="true"
@@ -501,11 +501,11 @@ export default function SignupForm() {
       <div className="flex h-full items-center justify-center">
         <form
           onSubmit={handleSubmit(handleSignupForm)}
-          className="flex flex-col items-center gap-8 rounded-4xl border p-12 text-center"
+          className="flex w-full max-w-md flex-col items-center gap-6 rounded-4xl border p-6 text-center md:gap-8 md:p-12"
         >
-          <label>Enter your name</label>
+          <label className="text-base md:text-xl">Enter your name</label>
           <input
-            className="rounded-2xl bg-green-100 px-8 py-4 text-gray-700"
+            className="w-full rounded-2xl bg-green-100 px-4 py-3 text-green-950 md:px-8 md:py-4"
             placeholder="Tirth Raval"
             {...register('name', {
               required: true,
@@ -516,9 +516,9 @@ export default function SignupForm() {
             <span className="text-red-400">Name field cannot be empty</span>
           )}
 
-          <label>Enter Email</label>
+          <label className="text-base md:text-xl">Enter Email</label>
           <input
-            className="rounded-2xl bg-green-100 px-8 py-4 text-gray-700"
+            className="w-full rounded-2xl bg-green-100 px-4 py-3 text-green-950 md:px-8 md:py-4"
             placeholder="test@gmail.com"
             {...register('email', {
               required: true,
@@ -535,7 +535,7 @@ export default function SignupForm() {
           {errors.email?.type === 'pattern' && (
             <span className="text-red-400">{errors.email.message}</span>
           )}
-          <label>Enter Passowrd</label>
+          <label className="text-base md:text-xl">Enter Passowrd</label>
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Tirth@123"
@@ -550,7 +550,7 @@ export default function SignupForm() {
             onInput={(e) =>
               handlePasswordInput(e, hideTimeoutRef, setShowPassword)
             }
-            className="rounded-2xl bg-green-100 px-8 py-4 text-green-950"
+            className="w-full rounded-2xl bg-green-100 px-4 py-3 text-green-950 md:px-8 md:py-4"
           />
           {errors.password?.type === 'required' && (
             <span className="text-red-400">Password cannot be empty</span>
@@ -560,8 +560,8 @@ export default function SignupForm() {
             <span className="text-red-400">{errors.password.message}</span>
           )}
 
-          <label className="relative w-full">
-            <div className="flex cursor-pointer items-center justify-center gap-3 rounded-2xl bg-green-100 px-8 py-4 text-green-950 transition hover:bg-green-200">
+          <label className="relative text-base md:text-xl">
+            <div className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl bg-green-100 px-4 py-3 text-green-950 transition hover:bg-green-200 md:px-8 md:py-4">
               <span className="text-gray-700">Upload Profile Photo</span>
             </div>
 
@@ -581,11 +581,11 @@ export default function SignupForm() {
               className="hidden"
             />
             {preview && (
-              <div className="absolute right-0 bottom-0 flex translate-x-1/2 translate-y-1/2 animate-bounce items-end justify-center">
+              <div className="absolute right-2 bottom-2 flex animate-bounce items-end justify-center md:right-0 md:bottom-0 md:translate-x-1/2 md:translate-y-1/2">
                 <img
                   src={preview}
                   alt="Profile preview"
-                  className="h-24 w-24 rounded-full border-2 border-green-300 object-cover shadow-md"
+                  className="right-0 bottom-0 h-24 w-24 rounded-full border-2 border-green-300 object-cover shadow-md"
                 />
               </div>
             )}
@@ -594,7 +594,7 @@ export default function SignupForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-fit cursor-pointer rounded-2xl bg-green-800 px-4 py-2 duration-150 hover:bg-green-300 hover:text-green-900"
+            className="w-full cursor-pointer rounded-2xl bg-green-800 px-4 py-3 duration-150 hover:bg-green-300 hover:text-green-900 md:w-fit md:px-6 md:py-3"
           >
             {isSubmitting ? 'Signing you up...' : 'Signup'}
           </button>

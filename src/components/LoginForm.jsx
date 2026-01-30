@@ -73,28 +73,19 @@ export default function LoginForm() {
   // reset({ username: 'newUser' }); // reset with values
 
   return (
-    <div className="flex h-3/4 justify-center gap-48">
-      <div className="flex h-full items-center justify-center">
-        <img src={loginDoodle} className="animate-float h-3/4" />
+    <div className="flex h-full flex-col items-center justify-center gap-10 px-4 py-10 md:h-3/4 md:flex-row md:gap-48 md:px-0 md:py-0">
+      <div className="hidden h-full items-center justify-center md:flex md:flex-1">
+        <img
+          src={loginDoodle}
+          className="animate-float h-3/4 w-auto max-w-full"
+        />
       </div>
-      <div className="flex h-full items-center justify-center">
+      <div className="flex w-full items-center justify-center md:h-full md:flex-1">
         <form
-          className="flex flex-col items-center gap-8 rounded-4xl border p-12 text-center"
+          className="flex w-full max-w-md flex-col items-center gap-6 rounded-4xl border p-6 text-center md:gap-8 md:p-12"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {/* <label className="text-5xl">Your Name</label>
-          <input
-            {...register('username', {
-              required: 'UserName is required',
-            })}
-            className="rounded-2xl bg-green-100 px-8 py-4 text-green-950"
-          />
-          {errors.username && (
-            <span className="text-[1.3rem] text-red-600">
-              {errors.username.message}
-            </span>
-          )} */}
-          <label className="text-5xl">E-mail</label>
+          <label className="text-xl md:text-5xl">E-mail</label>
           <input
             {...register('email', {
               required: 'Email is required',
@@ -104,15 +95,15 @@ export default function LoginForm() {
               },
             })}
             placeholder="tkr8499@gmail.com"
-            className="rounded-2xl bg-green-100 px-8 py-4 text-green-950"
+            className="w-full rounded-2xl bg-green-100 px-4 py-3 text-green-950 md:px-8 md:py-4"
           />
           {errors.email && (
-            <span className="text-[1.3rem] text-red-600">
+            <span className="text-sm text-red-600 md:text-[1.3rem]">
               {errors.email.message}
             </span>
           )}
 
-          <label className="text-5xl">Password</label>
+          <label className="text-xl md:text-5xl">Password</label>
           <input
             type={showPassword ? 'text' : 'password'}
             {...register('password', {
@@ -126,10 +117,10 @@ export default function LoginForm() {
             onInput={(e) =>
               handlePasswordInput(e, hideTimeoutRef, setShowPassword)
             }
-            className="rounded-2xl bg-green-100 px-8 py-4 text-green-950"
+            className="w-full rounded-2xl bg-green-100 px-4 py-3 text-green-950 md:px-8 md:py-4"
           />
           {errors.password && (
-            <span className="text-[1.3rem] text-red-600">
+            <span className="text-sm text-red-600 md:text-[1.3rem]">
               {errors.password.message}
             </span>
           )}
@@ -137,7 +128,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-fit cursor-pointer rounded-2xl bg-green-800 px-4 py-2 duration-150 hover:bg-green-300 hover:text-green-900"
+            className="w-full cursor-pointer rounded-2xl bg-green-800 px-4 py-3 duration-150 hover:bg-green-300 hover:text-green-900 md:w-fit md:px-6 md:py-3"
           >
             {isSubmitting ? 'Logging You In...' : 'Login'}
           </button>

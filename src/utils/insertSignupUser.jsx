@@ -9,6 +9,7 @@ export const insertSignupUser = async (data) => {
     method: 'POST',
     body: formData,
   });
+  console.log(res);
   if (!res.ok) throw new Error('user was unable to signup');
   const data1 = await res.json();
   return data1;

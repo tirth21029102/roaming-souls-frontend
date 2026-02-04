@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 export default function NewCityForm() {
   const data1 = useLoaderData();
   const navigate = useNavigate();
-  const c = data1.results[0].components;
+  const c = data1?.results?.[0]?.components;
 
-  const currAddingUserId = useSelector((state) => state.users.loggedInUser.id);
+  const currAddingUserId = useSelector((state) => state.users.loggedInUser?.id);
 
   const data2 = {
     continent: data1.results[0].components.continent,
@@ -80,6 +80,10 @@ export default function NewCityForm() {
         </p>
       </div>
     );
+
+  if (!currAddingUserId) {
+    return null; // or a loader / message
+  }
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

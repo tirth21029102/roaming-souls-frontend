@@ -2,7 +2,7 @@ import UserItem from './UserItem';
 
 export default function UsersList({ users, currentUser, onBack, onStartChat }) {
   return (
-    <ul className="space-y-2">
+    <ul className="max-h-64 space-y-2 overflow-y-auto">
       {users &&
         users.length > 0 &&
         users
